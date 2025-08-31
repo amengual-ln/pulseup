@@ -13,8 +13,5 @@ export default defineNuxtConfig({
     configPath: "tailwind.config.ts",
     exposeConfig: true,
     viewer: true,
-  },
-  experimental: {
-    renderJsonPayloads: false,
   }
 })

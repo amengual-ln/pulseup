@@ -4,7 +4,7 @@
     <form class="flex flex-col gap-4 w-full max-w-[400px]" @submit.prevent="login">
       <input type="text" placeholder="Email" class="bg-gray-900 text-[18px] rounded p-3 focus:outline-none" />
       <input type="password" placeholder="Password" class="bg-gray-900 text-[18px] rounded p-3 focus:outline-none" />
-      <button type="submit" class="bg-pulse-red text-white font-semibold p-3 rounded">Iniciar sesión</button>
+      <Button type="submit">Iniciar sesión</Button>
     </form>
     <NuxtLink href="/" class="text-gray-500 hover:text-pulse-red">Olvidaste tu contraseña?</NuxtLink>
   </div>

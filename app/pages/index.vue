@@ -6,17 +6,11 @@
         <p class="text-pulse-light-gray">{{ formattedDate }}</p>
       </div>
       <NuxtLink href="/login" class="hover:opacity-80 transition-opacity">
-        <AvatarRoot class="bg-pulse-primary inline-flex h-12 w-12 select-none items-center justify-center overflow-hidden rounded-full align-middle border-2 border-pulse-primary">
-          <AvatarImage 
-            :src="`/users/avatar${Math.floor(Math.random() * 4) + 1}.png`" 
-            alt="Perfil"
-            class="h-full w-full rounded-[inherit] object-cover" 
-          />
-        </AvatarRoot>
+        <Avatar />
       </NuxtLink>
     </header>
 
-    <section class="bg-pulse-gray p-4 rounded-xl shadow-lg">
+    <Card>
       <div v-if="daysUntilNextWorkout === 0" class="flex flex-col gap-2 bg-pulse-primary/10 rounded-r-lg">
         <p class="font-medium text-xl">Hoy toca entrenar! 🏋️</p>
         <p class="text-sm text-pulse-light-gray">No olvides calentar antes de comenzar.</p>
@@ -51,9 +45,9 @@
           </div>
         </div>
       </div>
-    </section>
+    </Card>
 
-    <section class="bg-pulse-gray p-4 rounded-xl shadow-lg">
+    <Card>
       <div class="flex items-center mb-4">
         <div class="p-2 rounded-lg bg-pulse-primary/20">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pulse-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -78,27 +72,23 @@
               <p class="text-sm text-pulse-light-gray">{{ exercise.sets }} series × {{exercise.reps}} repeticiones</p>
             </div>
           </div>
-          <button class="text-pulse-primary hover:text-pulse-primary/80">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-          </button>
         </div>
-        <button class="w-full text-pulse-red hover:text-pulse-red/80 font-semibold p-3 rounded">Ver completo</button>
+        <div class="flex">
+          <Button variant="link" class="w-full">Ver completo</Button>
+        </div>
       </div>
-      <div v-else class="text-center py-6">
+      <div v-else class="text-center py-6 flex flex-col gap-4">
         <p class="text-pulse-light-gray">No hay entrenamientos programados</p>
-        <button class="mt-3 px-4 py-2 bg-pulse-primary text-white rounded-lg hover:bg-pulse-primary/90 transition-colors">
+        <Button>
           Crear rutina
-        </button>
+        </Button>
       </div>
-    </section>
+    </Card>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
-import { AvatarImage, AvatarRoot } from 'reka-ui';
 
 const nextWorkout = {
   date: '2025-09-02T00:00:00',
