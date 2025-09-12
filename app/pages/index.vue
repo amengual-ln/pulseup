@@ -2,7 +2,7 @@
   <div class="flex flex-col h-full gap-6 p-4 max-w-2xl mx-auto w-full">
     <header class="flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-bold">Hola Usuario!</h1>
+        <h1 class="text-2xl font-bold">Hola {{ currentUser?.name }}!</h1>
         <p class="text-pulse-light-gray">{{ formattedDate }}</p>
       </div>
       <NuxtLink href="/login" class="hover:opacity-80 transition-opacity">
@@ -89,11 +89,16 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useAuthStore } from '~/stores/auth';
+
+const authStore = useAuthStore()
+
+const currentUser = authStore.currentUser
 
 const nextWorkout = {
-  date: '2025-09-02T00:00:00',
+  date: '2025-09-16T00:00:00',
   exercises: [
-    { name: 'Press de Banca', sets: 4, reps: '8-10' },
+    { name: 'Press de Banca ', sets: 4, reps: '8-10' },
     { name: 'Press Militar', sets: 3, reps: '10-12' },
     { name: 'Vuelos Laterales', sets: 3, reps: '12-15' },
   ]

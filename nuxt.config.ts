@@ -6,12 +6,16 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/eslint',
     '@nuxtjs/tailwindcss',
-    '@nuxt/fonts'
+    '@nuxt/fonts',
+    '@pinia/nuxt'
   ],
   tailwindcss: {
     cssPath: "~/assets/css/tailwind.css",
     configPath: "tailwind.config.ts",
     exposeConfig: true,
     viewer: true,
+  },
+  routeRules: {
+    '/**': { appMiddleware: ['auth'] } 
   }
 })
