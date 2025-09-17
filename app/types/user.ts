@@ -6,6 +6,8 @@ export interface User {
   email: string
   role: UserRole
   name: string
+  avatar?: string
+  firstLogin: boolean
 }
 
 export interface AuthState {

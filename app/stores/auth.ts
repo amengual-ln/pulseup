@@ -22,7 +22,7 @@ export const useAuthStore = defineStore('auth', {
         const usersStore = useUsersStore()
         await usersStore.fetchUsers()
         
-        const user = usersStore.users.find(u => u.username === username)
+        const user = usersStore.users.find(u => u.username.toLowerCase() === username.toLowerCase())
         
         if (user) {
           this.currentUser = user
@@ -44,7 +44,25 @@ export const useAuthStore = defineStore('auth', {
       this.isAuthenticated = false
       // Redirigir al login
       const router = useRouter()
-      router.push('/login')
+      // router.push('/login')
+    },
+
+    async updateCurrentUser(userData: Partial<Omit<User, 'id'>>): Promise<boolean> {
+      try {
+        if (!this.currentUser) return false
+        
+        this.currentUser = {
+          ...this.currentUser,
+          ...Object.fromEntries(
+            Object.entries(userData).filter(([_, v]) => v !== undefined)
+          )
+        } as User;
+
+        return true
+      } catch (error) {
+        console.error('Error updating user:', error)
+        return false
+      }
     },
   },
 })

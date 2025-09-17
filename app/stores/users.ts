@@ -32,21 +32,24 @@ export const useUsersStore = defineStore('users', {
             username: 'admin',
             email: 'admin@pulse.com',
             role: 'admin',
-            name: 'Admin'
+            name: 'Admin',
+            firstLogin: true
           },
           {
             id: 2,
             username: 'trainer',
             email: 'trainer@pulse.com',
             role: 'trainer',
-            name: 'Entrenador'
+            name: 'Entrenador',
+            firstLogin: true
           },
           {
             id: 3,
             username: 'trainee',
             email: 'trainee@pulse.com',
             role: 'trainee',
-            name: 'Trainee'
+            name: 'Trainee',
+            firstLogin: true
           }
         ]
       } catch (error) {
@@ -76,12 +79,18 @@ export const useUsersStore = defineStore('users', {
       }
     },
 
-    async updateUser(userId: number, userData: Partial<User>): Promise<boolean> {
+    async updateUser(userId: number, userData: Partial<Omit<User, 'id'>>): Promise<boolean> {
       try {
         const userIndex = this.users.findIndex(u => u.id === userId)
         if (userIndex === -1) return false
         
-        this.users[userIndex] = { ...this.users[userIndex], ...userData }
+        this.users[userIndex] = {
+          ...this.users[userIndex],
+          ...Object.fromEntries(
+            Object.entries(userData).filter(([_, v]) => v !== undefined)
+          )
+        } as User;
+
         return true
       } catch (error) {
         console.error('Error updating user:', error)

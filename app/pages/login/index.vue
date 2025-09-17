@@ -2,11 +2,11 @@
   <div class="flex flex-col items-center justify-center h-screen gap-4 p-6">
     <h1 class="text-4xl font-bold mb-16">PulseUP</h1>
     <form class="flex flex-col gap-4 w-full max-w-[400px]" @submit.prevent="handleLogin">
-      <input v-model="username" type="text" placeholder="Usuario" class="bg-gray-900 text-[18px] rounded p-3 focus:outline-none" />
+      <input ref="focusInput" v-model="username" type="text" placeholder="Usuario" class="bg-gray-900 text-[18px] rounded p-3 focus:outline-none" />
       <input v-model="password" type="password" placeholder="Password" class="bg-gray-900 text-[18px] rounded p-3 focus:outline-none" />
       <Button type="submit">Iniciar sesión</Button>
     </form>
-    <NuxtLink href="/" class="text-gray-500 hover:text-pulse-red">Olvidaste tu contraseña?</NuxtLink>
+    <NuxtLink href="#" class="text-gray-500 hover:text-pulse-red">Olvidaste tu contraseña?</NuxtLink>
   </div>
 </template>
 
@@ -18,6 +18,11 @@ import { useAuthStore } from '~/stores/auth'
 
 const router = useRouter()
 const authStore = useAuthStore()
+
+const focusInput = ref<HTMLInputElement | null>(null)
+onMounted(() => {
+  focusInput.value?.focus()
+})
 
 const username = ref('')
 const password = ref('')
@@ -37,11 +42,16 @@ const handleLogin = async () => {
     const success = await authStore.login(username.value, password.value)
     
     if (success) {
-      router.push('/')
+      if (authStore.currentUser?.firstLogin) {
+        router.push('/completeProfile')
+      } else {
+        router.push('/')
+      }
     } else {
       error.value = 'Credenciales inválidas'
     }
   } catch (err) {
+    console.error(err)
     error.value = 'Error al iniciar sesión. Por favor intente nuevamente.'
   } finally {
     loading.value = false
