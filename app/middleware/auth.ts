@@ -8,13 +8,13 @@ export default defineNuxtRouteMiddleware((to) => {
     return
   }
   if (currentUser.firstLogin) {
-    if (to.path !== '/welcome') {
-      return navigateTo('/welcome')
+    if (to.path !== '/completeProfile') {
+      return navigateTo('/completeProfile')
     }
     return
   }
 
-  if (['/login', '/welcome'].includes(to.path)) {
+  if (['/login', '/completeProfile'].includes(to.path)) {
     return navigateTo('/')
   }
 })
