@@ -1,14 +1,6 @@
 <template>
   <div class="flex flex-col h-full gap-6 p-4 max-w-2xl mx-auto w-full">
-    <header class="flex items-center justify-between">
-      <div>
-        <h1 class="text-2xl font-bold">Hola {{ currentUser?.name }}!</h1>
-        <p class="text-pulse-light-gray">{{ formattedDate }}</p>
-      </div>
-      <NuxtLink href="/login" class="hover:opacity-80 transition-opacity">
-        <Avatar />
-      </NuxtLink>
-    </header>
+    <Header />
 
     <Card>
       <div v-if="daysUntilNextWorkout === 0" class="flex flex-col gap-2 bg-pulse-primary/10 rounded-r-lg">
@@ -88,15 +80,12 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { useAuthStore } from '~/stores/auth';
+import { computed, ref } from 'vue';
 
-const authStore = useAuthStore()
-
-const currentUser = authStore.currentUser
+const nextWorkoutDate = ref(new Date().setDate(new Date().getDate() + 1))
 
 const nextWorkout = {
-  date: '2025-09-17T00:00:00',
+  date: nextWorkoutDate.value,
   exercises: [
     { name: 'Press de Banca ', sets: 4, reps: '8-10' },
     { name: 'Press Militar', sets: 3, reps: '10-12' },
@@ -132,11 +121,6 @@ const weekDays = computed(() => {
   
   return week
 })
-
-const formattedDate = computed(() => {
-  const options = { weekday: 'long', day: 'numeric', month: 'long' };
-  return today.toLocaleDateString('es-AR', options);
-});
 
 const daysUntilNextWorkout = computed(() => {
   const workoutDate = new Date(nextWorkout.date);
